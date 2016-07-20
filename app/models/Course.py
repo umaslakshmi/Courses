@@ -9,9 +9,28 @@
 """
 from system.core.model import Model
 
-class WelcomeModel(Model):
+class Course(Model):
     def __init__(self):
-        super(WelcomeModel, self).__init__()
+        super(Course, self).__init__()
+
+    def add_course(self, course):
+        query = 'INSERT INTO courses (name, description, created_at) VALUES (:name, :description, NOW())'
+        data = {'name': course['name'], 'description': course['description']}
+        return self.db.query_db(query, data)
+
+    def get_courses(self):
+        query = 'SELECT * FROM courses ORDER BY created_at DESC'
+        return self.db.query_db(query)
+
+    def get_course_by_id(self, id):
+        query = 'SELECT * FROM courses WHERE id=:id'
+        data = {'id': id}
+        return self.db.query_db(query, data)
+
+    def delete_course(self, id):
+        query = 'DELETE FROM courses WHERE id=:id'
+        data = {'id': id}
+        return self.db.query_db(query, data)
     """
     Below is an example of a model method that queries the database for all users in a fictitious application
     
